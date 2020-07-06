@@ -13,6 +13,7 @@ app.use(cors());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(express.json());
+app.use(express.static(path.join(__dirname, 'client/build')));
 
 cloudinary.config({ 
     cloud_name: process.env.CLOUD_NAME, 
@@ -34,10 +35,7 @@ const photosRouter = require('./routes/photo.router');
 
 app.use('/albums', albumsRouter);
 app.use('/photos', photosRouter);
-app.use(express.static('client/build'));
-app.get('*', (req, res) => {
-res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
-});
+
 
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
